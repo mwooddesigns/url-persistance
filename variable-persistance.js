@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
   var variables = createQueryAssoc();
-  for(var key in variables) {
-    document.cookie = "__MTI_" + key + "=" + variables[key];
-  }
-  clearMTICookies();
+  createMTIVariables(variables);
 });
 
 function createQueryAssoc() {
@@ -25,7 +22,17 @@ function clearMTICookies() {
     var tempCookie = allCookies[i].split('=');
     var cookieName = tempCookie[0].trim();
     if(cookieName.substring(0,6) == "__MTI_") {
-      console.log(cookieName);
+      deleteCookie(cookieName);
     }
+  }
+}
+
+function deleteCookie(cookieName) {
+  document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+}
+
+function createMTIVariables(variables) {
+  for(var key in variables) {
+    document.cookie = "__MTI_" + key + "=" + variables[key];
   }
 }
